@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main() {
+int solution() {
     println("Hello from {{project}}!")
     return 0;
 }
