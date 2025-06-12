@@ -50,8 +50,7 @@ segments = signature.split("(")[1].split(")")[0].split(", ")
 for i, val in enumerate(segments):
     temp = template_string if i != 0 else template_string.replace("\t", "")
     segment = val.split(" ")
-    if "const" in segment:
-        temp = temp.replace("{{const}}", "const ")
+    temp = temp.replace("{{const}}", "const " if "const" in segment else "")
     temp = temp.replace("{{type}}", segment[0])
     temp = temp.replace("{{name}}", segment[-1].replace("&",""))
     call += segment[-1].replace("&", "") + (", " if i != len(segments) - 1 else "")
