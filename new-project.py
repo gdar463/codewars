@@ -43,16 +43,29 @@ for key, val in needs_import.items():
     if signature.find(key) != -1:
         imports = imports + "#include " + val + "\n"
 
-template_string = '\t{{const}}{{type}} {{name}} = argv[{{index}}];'
+needs_wrapper = {
+    "int": tuple(["std::atoi(", ")"]),
+    "long": tuple(["std::atol(", ")"]),
+    "long long": tuple(["std::atoll(", ")"]),
+    "double": tuple(["std::atof(", ")"])
+}
+
+template_string = '\t{{const}}{{type}} {{name}} = {{wrapperStart}}argv[{{index}}]{{wrapperEnd}};'
 inputs = ""
 call = signature.split("(")[0].split(" ")[1] + "("
 segments = signature.split("(")[1].split(")")[0].split(", ")
 for i, val in enumerate(segments):
     temp = template_string if i != 0 else template_string.replace("\t", "")
-    segment = val.split(" ")
+    segment = val.replace("long long", "longlong").split(" ")
     temp = temp.replace("{{const}}", "const " if "const" in segment else "")
-    temp = temp.replace("{{type}}", segment[0])
+    temp = temp.replace("{{type}}", segment[0].replace("longlong", "long long"))
     temp = temp.replace("{{name}}", segment[-1].replace("&",""))
+    if segment[0].replace("longlong", "long long") in needs_wrapper:
+        wrapper = needs_wrapper[segment[0].replace("longlong", "long long")]
+    else:
+        wrapper = tuple(["",""])
+    temp = temp.replace("{{wrapperStart}}", wrapper[0])
+    temp = temp.replace("{{wrapperEnd}}", wrapper[1])
     call += segment[-1].replace("&", "") + (", " if i != len(segments) - 1 else "")
     temp = temp.replace("{{index}}", str(i + 1)) + ("\n" if i != len(segments) - 1 else "")
     inputs += temp
