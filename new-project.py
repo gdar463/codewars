@@ -57,7 +57,7 @@ for i, val in enumerate(segments):
     call += segment[-1].replace("&", "") + (", " if i != len(segments) - 1 else "")
     temp = temp.replace("{{index}}", str(i + 1)) + ("\n" if i != len(segments) - 1 else "")
     inputs += temp
-call += ");"
+call += ")"
 
 with open("example/example.sh", "rt") as f:
     bashFile = f.read()
