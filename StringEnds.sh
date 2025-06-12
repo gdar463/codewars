@@ -7,5 +7,5 @@ if [ $? -eq 0 ]; then
         cd StringEnds
     fi
     echo 
-    ../build/stringEnds
+    ../build/stringEnds "${@:1}"
 fi

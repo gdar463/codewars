@@ -7,5 +7,5 @@ if [ $? -eq 0 ]; then
         cd {{projectName}}
     fi
     echo 
-    ../build/{{projectFile}}
+    ../build/{{projectFile}} "${@:1}"
 fi
