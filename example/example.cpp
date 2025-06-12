@@ -4,6 +4,6 @@
 #define print(string) (std::cout << string);
 
 {{signature}} {
-    println("Hello from {{project}}!")
-    return 0;
+  println("Hello from {{project}}!")
+  return 0;
 }
