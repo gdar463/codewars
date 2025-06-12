@@ -6,6 +6,8 @@ import os
 parser = argparse.ArgumentParser("new codewars cpp project")
 parser.add_argument("name")
 parser.add_argument("-s", "--signature")
+parser.add_argument("-o", "--official")
+parser.add_argument("-l", "--link")
 
 args = parser.parse_args()
 
@@ -16,6 +18,16 @@ if args.signature is None:
     signature = input("Enter signature: ")
 else:
     signature: str = args.signature
+
+if args.official is None:
+    official = input("Enter official name: ")
+else:
+    official: str = args.official
+
+if args.link is None:
+    link = input("Enter link: ")
+else:
+    link: str = args.link
 
 imports = ""
 needs_import = {
@@ -64,6 +76,12 @@ mainFile = mainFile.replace("{{signature}}", signature + ";")
 mainFile = mainFile.replace("{{inputs}}", inputs)
 mainFile = mainFile.replace("{{call}}", call)
 
+with open("example/README.md", "rt") as f:
+    mdFile = f.read()
+mdFile = mdFile.replace("{{projectName}}", project)
+mdFile = mdFile.replace("{{officialName}}", official)
+mdFile = mdFile.replace("{{link}}", link)
+
 with open(project + ".sh", "wt") as f:
     f.write(bashFile)
 
@@ -75,5 +93,7 @@ with open(project + "/" + projectLower + ".cpp", "wt") as f:
     f.write(cppFile)
 with open(project + "/main.cpp", "wt") as f:
     f.write(mainFile)
+with open(project + "/README.md", "wt") as f:
+    f.write(mdFile)
 
 print("Done!")
