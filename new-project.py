@@ -2,6 +2,7 @@
 
 import argparse
 import os
+from sys import platform
 
 parser = argparse.ArgumentParser("new codewars cpp project")
 parser.add_argument("name")
@@ -84,6 +85,8 @@ mdFile = mdFile.replace("{{link}}", link)
 
 with open(project + ".sh", "wt") as f:
     f.write(bashFile)
+if platform == "linux":
+    os.system("chmod +x ./" + project + ".sh")
 
 with open("CMakeLists.txt", "at") as f:
     f.write("add_executable(" + project + " " + project + "/main.cpp " + project + "/" + projectLower + ".cpp)\n")
