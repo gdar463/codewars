@@ -82,10 +82,10 @@ mdFile = mdFile.replace("{{projectName}}", project)
 mdFile = mdFile.replace("{{officialName}}", official)
 mdFile = mdFile.replace("{{link}}", link)
 
-with open(project + ".sh", "wt") as f:
+with open("scripts/" + project + ".sh", "wt") as f:
     f.write(bashFile)
 if platform == "linux":
-    os.system("chmod +x ./" + project + ".sh")
+    os.system("chmod +x ./scripts/" + project + ".sh")
 
 with open("CMakeLists.txt", "at") as f:
     f.write("add_executable(" + project + " " + project + "/main.cpp " + project + "/" + projectLower + ".cpp)\n")
