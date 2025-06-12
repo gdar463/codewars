@@ -55,7 +55,7 @@ for i, val in enumerate(segments):
     temp = temp.replace("{{type}}", segment[0])
     temp = temp.replace("{{name}}", segment[-1].replace("&",""))
     call += segment[-1].replace("&", "") + (", " if i != len(segments) - 1 else "")
-    temp = temp.replace("{{index}}", str(i)) + ("\n" if i != len(segments) - 1 else "")
+    temp = temp.replace("{{index}}", str(i + 1)) + ("\n" if i != len(segments) - 1 else "")
     inputs += temp
 call += ");"
 
