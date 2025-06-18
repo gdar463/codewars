@@ -58,7 +58,7 @@ for i, val in enumerate(segments):
     temp = template_string if i != 0 else template_string.replace("\t", "")
     segment = val.replace("long long", "longlong").split(" ")
     temp = temp.replace("{{const}}", "const " if "const" in segment else "")
-    temp = temp.replace("{{type}}", segment[0].replace("longlong", "long long"))
+    temp = temp.replace("{{type}}", segment[1 if "const" in segment else 0].replace("longlong", "long long"))
     temp = temp.replace("{{name}}", segment[-1].replace("&",""))
     if segment[0].replace("longlong", "long long") in needs_wrapper:
         wrapper = needs_wrapper[segment[0].replace("longlong", "long long")]
