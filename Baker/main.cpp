@@ -26,8 +26,12 @@ int main(int argc, char *argv[]) {
   Ingredients recipe;
   Ingredients available;
 
-  std::string first = argv[1];
-  std::string second = argv[2];
+  std::string first;
+  std::string second;
+  std::cout << "Enter recipe: ";
+  std::getline(std::cin, first);
+  std::cout << "Enter available: ";
+  std::getline(std::cin, second);
 
   std::cout << cakes(get_from_string(first), get_from_string(second))
             << std::endl;
