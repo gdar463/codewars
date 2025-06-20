@@ -1,4 +1,5 @@
 # Codewars
 
-![Status Badge](https://www.codewars.com/users/gdar463/badges/large)<br>
-All of my C++ solutions to [Katas](https://codewars.com)
+![Status Badge](https://www.codewars.com/users/gdar463/badges/large)
+
+All of my C++ solutions to [Katas](https://codewars.com) and [My Profile](https://www.codewars.com/users/gdar463)
