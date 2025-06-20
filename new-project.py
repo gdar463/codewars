@@ -15,20 +15,16 @@ args = parser.parse_args()
 project: str = args.name
 projectLower = project[0].lower() + project[1:]
 
-if args.signature is None:
-    signature = input("Enter signature: ")
-else:
-    signature: str = args.signature
+def get_if_not_passed(arg_name: str, name: str | None = None):
+    if vars(args)[arg_name] is None:
+        if name is None:
+            return input("Enter " + arg_name + ": ")
+        return input("Enter " + name + ": ")
+    return str(vars(args)[arg_name])
 
-if args.official is None:
-    official = input("Enter official name: ")
-else:
-    official: str = args.official
-
-if args.link is None:
-    link = input("Enter link: ")
-else:
-    link: str = args.link
+signature = get_if_not_passed("signature")
+official = get_if_not_passed("official", "official name")
+link = get_if_not_passed("link")
 
 imports = ""
 needs_import = {
