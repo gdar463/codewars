@@ -1,6 +1,12 @@
-#include <iostream>
+using ull = unsigned long long;
 
-unsigned int countBits(unsigned long long n) {
-  std::cout << "Hello from BitCount!" << std::endl;
-  return 0;
+unsigned int countBits(ull n) {
+  unsigned int count = 0;
+  while (n != 0) {
+    ull shifted = n & 1;
+    if (shifted == 1)
+      count++;
+    n >>= 1;
+  }
+  return count;
 }
