@@ -47,6 +47,7 @@ needs_wrapper = {
     "int": tuple(["std::atoi(", ")"]),
     "long": tuple(["std::atol(", ")"]),
     "long long": tuple(["std::atoll(", ")"]),
+    "unsigned long long": tuple(["std::stoull(",")"]),
     "double": tuple(["std::atof(", ")"])
 }
 
@@ -56,12 +57,14 @@ call = signature.split("(")[0].split(" ")[1] + "("
 segments = signature.split("(")[1].split(")")[0].split(", ")
 for i, val in enumerate(segments):
     temp = template_string if i != 0 else template_string.replace("\t", "")
-    segment = val.replace("long long", "longlong").split(" ")
+    segment = val.replace("unsigned long long", "ulonglong").replace("long long", "longlong").split(" ")
     temp = temp.replace("{{const}}", "const " if "const" in segment else "")
-    temp = temp.replace("{{type}}", segment[1 if "const" in segment else 0].replace("longlong", "long long"))
+    temp = temp.replace("{{type}}", segment[1 if "const" in segment else 0].replace("ulonglong", "unsigned long long").replace("longlong", "long long"))
     temp = temp.replace("{{name}}", segment[-1].replace("&",""))
-    if segment[0].replace("longlong", "long long") in needs_wrapper:
-        wrapper = needs_wrapper[segment[0].replace("longlong", "long long")]
+    if segment[0].replace("ulonglong", "unsigned long long").replace("longlong", "long long") in needs_wrapper:
+        wrapper = needs_wrapper[segment[0].replace("ulonglong", "unsigned long long").replace("longlong", "long long")]
+        if segment[0].count("ulonglong") > 0:
+            imports = imports + "#include <string>\n"
     else:
         wrapper = tuple(["",""])
     temp = temp.replace("{{wrapperStart}}", wrapper[0])
