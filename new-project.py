@@ -114,6 +114,6 @@ with open(project + "/main.cpp", "wt") as f:
 with open(project + "/README.md", "wt") as f:
     f.write(mdFile)
 
-os.system("cmake --build build")
+os.system("cd build; cmake ..")
 
 print("Done!")
