@@ -3,7 +3,7 @@
 {{signature}}
 
 int main(int argc, char* argv[]) {
-  {{inputs}}
+{{inputs}}
   
   for ({{type}} i: {{call}}) {
     std::cout << i << ' ';

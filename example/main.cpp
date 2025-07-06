@@ -3,7 +3,7 @@
 {{signature}}
 
 int main(int argc, char* argv[]) {
-  {{inputs}}
+{{inputs}}
   
   std::cout << {{call}} << std::endl;
 
