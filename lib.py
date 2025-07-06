@@ -24,13 +24,13 @@ def sort_out_stuff(signature: str, needs_wrapper: dict[str, tuple[str, ...]], ne
         temp = template_string
         segment = replace_types(val).split(" ")
         zero_inv = replace_types_inv(segment[0])
-
-        if zero_inv in needs_wrapper:
-            wrapper = needs_wrapper[zero_inv]
+        
+        if zero_inv.split("<")[0] in needs_wrapper:
+            wrapper = needs_wrapper[zero_inv.split("<")[0]]
             if segment[0].count("ulonglong") > 0:
                 imports = imports + "#include <string>\n"
         else:
-            wrapper = tuple(["",""])
+            wrapper = tuple([" = ",""])
             
         tempReplacements = {
             "{{const}}": "const " if "const" in segment else "",

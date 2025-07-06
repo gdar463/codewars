@@ -56,7 +56,8 @@ needs_wrapper = {
     "long": tuple(["std::atol(", ")"]),
     "long long": tuple(["std::atoll(", ")"]),
     "unsigned long long": tuple(["std::stoull(",")"]),
-    "double": tuple(["std::atof(", ")"])
+    "double": tuple(["std::atof(", ")"]),
+    "std::vector": tuple(["(", " + 1, argv + argc)"])
 }
 
 inputs, call, imports = sort_out_stuff(signature, needs_wrapper, needs_replace, imports)
