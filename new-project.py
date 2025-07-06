@@ -3,13 +3,17 @@
 import argparse
 import os
 from sys import platform
+import sys
 from lib import sort_out_stuff, replace_by_dir
 
-parser = argparse.ArgumentParser("new codewars cpp project")
-parser.add_argument("name")
-parser.add_argument("-s", "--signature")
-parser.add_argument("-o", "--official")
-parser.add_argument("-l", "--link")
+parser = argparse.ArgumentParser("Codewars CPP Setup", description="Creates a new CMake target for developing Katas locally")
+parser.add_argument("name", help="Name of the project (use for folder and file name)")
+parser.add_argument("-s", "--signature", help="Signature of the function given by the Kata")
+parser.add_argument("-o", "--official", help="Official name of the Kata")
+parser.add_argument("-l", "--link", help="Link to the Kata")
+if len(sys.argv)==1:
+    parser.print_help(sys.stderr)
+    sys.exit()
 
 args = parser.parse_args()
 
