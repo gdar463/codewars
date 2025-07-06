@@ -59,6 +59,13 @@ needs_wrapper = {
 
 inputs, call, imports = sort_out_stuff(signature, needs_wrapper, needs_replace, imports)
 
+return_type = signature.split(" ")[0]
+isVector = False
+vectorType = ""
+if "vector" in return_type:
+    isVector = True
+    vectorType = return_type.split("<")[1].split(">")[0]
+
 bashFileReplacements = {
     "{{projectName}}": project,
     "{{projectFile}}": projectLower
@@ -76,14 +83,22 @@ with open("example/example.cpp", "rt") as f:
     cppFile = f.read()
 cppFile = replace_by_dir(cppFile, cppFileReplacements)
 
+mainFile = ""
 mainFileReplacements = {
     "{{imports}}": imports,
     "{{signature}}": signature + ";",
     "{{inputs}}": inputs,
     "{{call}}": call
 }
-with open("example/main.cpp", "rt") as f:
-    mainFile = f.read()
+if isVector:
+    mainFileReplacements = mainFileReplacements | {
+        "{{type}}": vectorType
+    }
+    with open("example/mainVector.cpp", "rt") as f:
+        mainFile = f.read()
+else:
+    with open("example/main.cpp", "rt") as f:
+        mainFile = f.read()
 mainFile = replace_by_dir(mainFile, mainFileReplacements)
 
 mdFileReplacements= {
