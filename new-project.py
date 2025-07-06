@@ -11,6 +11,7 @@ parser.add_argument("name", help="Name of the project (use for folder and file n
 parser.add_argument("-s", "--signature", help="Signature of the function given by the Kata")
 parser.add_argument("-o", "--official", help="Official name of the Kata")
 parser.add_argument("-l", "--link", help="Link to the Kata")
+parser.add_argument("--dry-run", help="Don't write files", action="store_true")
 if len(sys.argv)==1:
     parser.print_help(sys.stderr)
     sys.exit()
@@ -30,6 +31,7 @@ def get_if_not_passed(arg_name: str, name: str | None = None):
 signature = get_if_not_passed("signature")
 official = get_if_not_passed("official", "official name")
 link = get_if_not_passed("link")
+dry_run: bool = args.dry_run if vars(args)["dry_run"] is not None else False
 
 imports = ""
 needs_import = {
@@ -110,22 +112,46 @@ with open("example/README.md", "rt") as f:
     mdFile = f.read()
 mdFile = replace_by_dir(mdFile, mdFileReplacements)
 
-with open("scripts/" + project + ".sh", "wt") as f:
-    f.write(bashFile)
-if platform == "linux":
-    os.system("chmod +x ./scripts/" + project + ".sh")
+if not dry_run:
+    with open("scripts/" + project + ".sh", "wt") as f:
+        f.write(bashFile)
+    if platform == "linux":
+        os.system("chmod +x ./scripts/" + project + ".sh")
 
-with open("CMakeLists.txt", "at") as f:
-    f.write("add_executable(" + project + " " + project + "/main.cpp " + project + "/" + projectLower + ".cpp)\n")
+    with open("CMakeLists.txt", "at") as f:
+        f.write("add_executable(" + project + " " + project + "/main.cpp " + project + "/" + projectLower + ".cpp)\n")
 
-os.makedirs(project)
-with open(project + "/" + projectLower + ".cpp", "wt") as f:
-    f.write(cppFile)
-with open(project + "/main.cpp", "wt") as f:
-    f.write(mainFile)
-with open(project + "/README.md", "wt") as f:
-    f.write(mdFile)
+    os.makedirs(project)
+    with open(project + "/" + projectLower + ".cpp", "wt") as f:
+        f.write(cppFile)
+    with open(project + "/main.cpp", "wt") as f:
+        f.write(mainFile)
+    with open(project + "/README.md", "wt") as f:
+        f.write(mdFile)
 
-os.system("cd build; cmake ..")
+    os.system("cd build; cmake ..")
+else:
+    print("-- Bash File: \"scripts/" + project + ".sh\"\n")
+    print("```")
+    print(bashFile, end="")
+    print("```\n")
+
+    print("-- CMake Line:\n")
+    print("```")
+    print("add_executable(" + project + " " + project + "/main.cpp " + project + "/" + projectLower + ".cpp)")
+    print("```\n")
+    
+    print("-- CPP File: \"" + project + "/" + projectLower + ".cpp\"\n")
+    print("```")
+    print(cppFile, end="")
+    print("```\n")
+    print("-- Main File: \"" + project + "/main.cpp\"\n")
+    print("```")
+    print(mainFile, end="")
+    print("```\n")
+    print("-- README File: \"" + project + "/README.md\"\n")
+    print("```")
+    print(mdFile, end="")
+    print("```\n")
 
 print("Done!")
