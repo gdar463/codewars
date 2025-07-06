@@ -16,7 +16,7 @@ def sort_out_stuff(signature: str, needs_wrapper: dict[str, tuple[str, ...]], ne
             input = input.replace(temp_name, official)
         return input
 
-    template_string = '{{const}}{{type}} {{name}} = {{wrapperStart}}argv[{{index}}]{{wrapperEnd}};'
+    template_string = '{{const}}{{type}} {{name}}{{wrapperStart}}argv{{index}}{{wrapperEnd}};'
     inputs = "\t"
     call = signature.split("(")[0].split(" ")[1] + "("
     segments = signature.split("(")[1].split(")")[0].split(", ")
@@ -38,7 +38,7 @@ def sort_out_stuff(signature: str, needs_wrapper: dict[str, tuple[str, ...]], ne
             "{{name}}": segment[-1].replace("&", ""),
             "{{wrapperStart}}": wrapper[0],
             "{{wrapperEnd}}": wrapper[1],
-            "{{index}}": str(i + 1)
+            "{{index}}": "[" + str(i + 1) + "]" if "vector" not in zero_inv.split("<")[0] else ""
         }
         
         call += segment[-1].replace("&", "") + (", " if i != len(segments) - 1 else "")
