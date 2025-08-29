@@ -16,3 +16,4 @@ add_executable(CountDuplicates CountDuplicates/main.cpp CountDuplicates/countDup
 add_executable(UniqueOrder UniqueOrder/main.cpp UniqueOrder/uniqueOrder.cpp)
 add_executable(Smileys Smileys/main.cpp Smileys/smileys.cpp)
 add_executable(MoveZeros MoveZeros/main.cpp MoveZeros/moveZeros.cpp)
+add_executable(GetPINs GetPINs/main.cpp GetPINs/getPINs.cpp)
