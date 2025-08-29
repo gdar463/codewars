@@ -40,7 +40,8 @@ needs_import = {
     "std::map": "<map>",
     "std::array": "<array>",
     "std::set": "<set>",
-    "std::vector": "<vector>"
+    "std::vector": "<vector>",
+    "std::pair": "<utility>",
 }
 for key, val in needs_import.items():
     if signature.find(key) != -1:
